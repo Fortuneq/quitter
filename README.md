@@ -41,6 +41,6 @@ cd miniapp && npm install && npm run dev
 ## Перед запуском продаж
 
 - Создать бота в BotFather, положить токен в api.env, включить вебхук
-  `https://<домен>/api/tg-webhook` (с secret_token = WEBHOOK_SECRET).
-- Заполнить реквизиты в `miniapp/public/docs/*.html` (плейсхолдеры [ФИО]/[ИНН]/[e-mail]/[имя бота]/[домен]).
+  `https://true-scale.ru/quit/api/tg-webhook` (с secret_token = WEBHOOK_SECRET).
+- Заполнить реквизиты в `miniapp/public/docs/*.html` (плейсхолдеры [ФИО]/[ИНН]/[e-mail]).
 - Ключи ЮKassa в api.env + вебхук payment.succeeded → `/api/yk-webhook`.

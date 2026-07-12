@@ -18,7 +18,8 @@ git pull --ff-only
 BOT_USERNAME=$(grep "^BOT_USERNAME=" /etc/quitter/api.env | cut -d= -f2 || true)
 echo "→ Сборка образов…"
 sudo docker build -q -t quitter-api ./api
-sudo docker build -q --build-arg VITE_BOT_USERNAME="$BOT_USERNAME" -t quitter-webapp ./miniapp
+sudo docker build -q --build-arg VITE_BOT_USERNAME="$BOT_USERNAME" \
+  --build-arg VITE_API_BASE=/quit/api -t quitter-webapp ./miniapp
 echo "→ Перезапуск контейнеров (blue-green: новый стартует до остановки старого)…"
 sudo docker rm -f quitter-api-new quitter-app-new 2>/dev/null || true
 sudo docker run -d --name quitter-api-new \

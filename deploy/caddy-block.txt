@@ -1,21 +1,16 @@
-# Референс-копия блока quitter для Caddyfile сервера.
-# ЗАМЕНИ quitter.example.com на боевой домен перед вставкой.
-# (боевой файл: /root/plane/deployments/cli/community/Caddyfile.custom на gas2;
-# после правок: docker exec community-proxy-1 caddy reload --config /etc/caddy/Caddyfile)
-quitter.example.com, www.quitter.example.com {
-	header {
-		Strict-Transport-Security "max-age=31536000; includeSubDomains"
-		X-Content-Type-Options "nosniff"
-		Referrer-Policy "strict-origin-when-cross-origin"
-		Content-Security-Policy "frame-ancestors 'self' https://web.telegram.org https://*.telegram.org tg://"
-		-Server
-	}
+# Референс: quitter живёт ВНУТРИ блока true-scale.ru (общего со stretcher)
+# в /root/plane/deployments/cli/community/Caddyfile.custom на gas2 по пути /quit.
+# Сниппет вставлен ПЕРЕД хендлами stretcher (@metrics); catch-all stretcher-app
+# остаётся последним. После правок:
+# docker exec community-proxy-1 caddy reload --config /etc/caddy/Caddyfile
+
+	# ---- quitter (Ребут): true-scale.ru/quit ----
 	# метрики — только изнутри docker-сети
-	@metrics path /api/metrics
-	handle @metrics {
+	@qmetrics path /quit/api/metrics
+	handle @qmetrics {
 		respond 404
 	}
-	# Grafana quitter за секретным путём (см. deploy/grafana/SECRET_PATH.txt)
+	# Grafana quitter за секретным путём (deploy/grafana/SECRET_PATH.txt)
 	handle /***REMOVED***/* {
 		header -Content-Security-Policy
 		header X-Robots-Tag "noindex, nofollow"
@@ -24,16 +19,20 @@ quitter.example.com, www.quitter.example.com {
 			header_up X-Forwarded-Proto {scheme}
 		}
 	}
-	handle /api/* {
+	# API: /quit/api/* → quitter-api (префикс /quit срезаем, /api оставляем)
+	handle /quit/api/* {
+		uri strip_prefix /quit
 		reverse_proxy quitter-api:8080 {
 			header_up X-Real-IP {remote_host}
 			header_up X-Forwarded-Proto {scheme}
 		}
 	}
-	handle {
+	redir /quit /quit/ 308
+	# Статика miniapp: /quit/* → quitter-app (префикс срезаем целиком)
+	handle_path /quit/* {
 		reverse_proxy quitter-app:80 {
 			header_up X-Real-IP {remote_host}
 			header_up X-Forwarded-Proto {scheme}
 		}
 	}
-}
+	# ---- конец quitter ----
