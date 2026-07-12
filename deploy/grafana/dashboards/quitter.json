@@ -1,0 +1,628 @@
+{
+ "uid": "quitter-main",
+ "title": "quitter · обзор",
+ "timezone": "browser",
+ "schemaVersion": 39,
+ "refresh": "30s",
+ "time": {
+  "from": "now-24h",
+  "to": "now"
+ },
+ "panels": [
+  {
+   "type": "stat",
+   "title": "Пользователи",
+   "gridPos": {
+    "x": 0,
+    "y": 0,
+    "w": 4,
+    "h": 5
+   },
+   "datasource": {
+    "type": "prometheus",
+    "uid": "prom"
+   },
+   "options": {
+    "reduceOptions": {
+     "calcs": [
+      "lastNotNull"
+     ]
+    },
+    "graphMode": "area"
+   },
+   "fieldConfig": {
+    "defaults": {},
+    "overrides": []
+   },
+   "targets": [
+    {
+     "expr": "quitter_users_total",
+     "refId": "A",
+     "legendFormat": "__auto"
+    }
+   ],
+   "id": 1
+  },
+  {
+   "type": "stat",
+   "title": "Премиум активен",
+   "gridPos": {
+    "x": 4,
+    "y": 0,
+    "w": 4,
+    "h": 5
+   },
+   "datasource": {
+    "type": "prometheus",
+    "uid": "prom"
+   },
+   "options": {
+    "reduceOptions": {
+     "calcs": [
+      "lastNotNull"
+     ]
+    },
+    "graphMode": "area"
+   },
+   "fieldConfig": {
+    "defaults": {},
+    "overrides": []
+   },
+   "targets": [
+    {
+     "expr": "quitter_premium_active",
+     "refId": "A",
+     "legendFormat": "__auto"
+    }
+   ],
+   "id": 2
+  },
+  {
+   "type": "stat",
+   "title": "На триале",
+   "gridPos": {
+    "x": 8,
+    "y": 0,
+    "w": 4,
+    "h": 5
+   },
+   "datasource": {
+    "type": "prometheus",
+    "uid": "prom"
+   },
+   "options": {
+    "reduceOptions": {
+     "calcs": [
+      "lastNotNull"
+     ]
+    },
+    "graphMode": "area"
+   },
+   "fieldConfig": {
+    "defaults": {},
+    "overrides": []
+   },
+   "targets": [
+    {
+     "expr": "quitter_trial_active",
+     "refId": "A",
+     "legendFormat": "__auto"
+    }
+   ],
+   "id": 3
+  },
+  {
+   "type": "stat",
+   "title": "Оплат всего",
+   "gridPos": {
+    "x": 12,
+    "y": 0,
+    "w": 4,
+    "h": 5
+   },
+   "datasource": {
+    "type": "prometheus",
+    "uid": "prom"
+   },
+   "options": {
+    "reduceOptions": {
+     "calcs": [
+      "lastNotNull"
+     ]
+    },
+    "graphMode": "area"
+   },
+   "fieldConfig": {
+    "defaults": {},
+    "overrides": []
+   },
+   "targets": [
+    {
+     "expr": "sum(quitter_payments_total)",
+     "refId": "A",
+     "legendFormat": "__auto"
+    }
+   ],
+   "id": 4
+  },
+  {
+   "type": "stat",
+   "title": "Выручка Stars, ⭐",
+   "gridPos": {
+    "x": 16,
+    "y": 0,
+    "w": 4,
+    "h": 5
+   },
+   "datasource": {
+    "type": "prometheus",
+    "uid": "prom"
+   },
+   "options": {
+    "reduceOptions": {
+     "calcs": [
+      "lastNotNull"
+     ]
+    },
+    "graphMode": "area"
+   },
+   "fieldConfig": {
+    "defaults": {},
+    "overrides": []
+   },
+   "targets": [
+    {
+     "expr": "sum(quitter_revenue_total{currency=\"XTR\"})",
+     "refId": "A",
+     "legendFormat": "__auto"
+    }
+   ],
+   "id": 5
+  },
+  {
+   "type": "stat",
+   "title": "Выручка ЮKassa, ₽",
+   "gridPos": {
+    "x": 20,
+    "y": 0,
+    "w": 4,
+    "h": 5
+   },
+   "datasource": {
+    "type": "prometheus",
+    "uid": "prom"
+   },
+   "options": {
+    "reduceOptions": {
+     "calcs": [
+      "lastNotNull"
+     ]
+    },
+    "graphMode": "area"
+   },
+   "fieldConfig": {
+    "defaults": {
+     "unit": "currencyRUB"
+    },
+    "overrides": []
+   },
+   "targets": [
+    {
+     "expr": "sum(quitter_revenue_total{currency=\"RUB\"})",
+     "refId": "A",
+     "legendFormat": "__auto"
+    }
+   ],
+   "id": 6
+  },
+  {
+   "type": "stat",
+   "title": "Лиды с минисайта",
+   "gridPos": {
+    "x": 0,
+    "y": 5,
+    "w": 4,
+    "h": 5
+   },
+   "datasource": {
+    "type": "prometheus",
+    "uid": "prom"
+   },
+   "options": {
+    "reduceOptions": {
+     "calcs": [
+      "lastNotNull"
+     ]
+    },
+    "graphMode": "area"
+   },
+   "fieldConfig": {
+    "defaults": {},
+    "overrides": []
+   },
+   "targets": [
+    {
+     "expr": "quitter_leads_total",
+     "refId": "A",
+     "legendFormat": "__auto"
+    }
+   ],
+   "id": 7
+  },
+  {
+   "type": "stat",
+   "title": "Лиды оплатили",
+   "gridPos": {
+    "x": 4,
+    "y": 5,
+    "w": 4,
+    "h": 5
+   },
+   "datasource": {
+    "type": "prometheus",
+    "uid": "prom"
+   },
+   "options": {
+    "reduceOptions": {
+     "calcs": [
+      "lastNotNull"
+     ]
+    },
+    "graphMode": "area"
+   },
+   "fieldConfig": {
+    "defaults": {},
+    "overrides": []
+   },
+   "targets": [
+    {
+     "expr": "quitter_leads_paid",
+     "refId": "A",
+     "legendFormat": "__auto"
+    }
+   ],
+   "id": 8
+  },
+  {
+   "type": "stat",
+   "title": "Согласия ПДн активны",
+   "gridPos": {
+    "x": 8,
+    "y": 5,
+    "w": 4,
+    "h": 5
+   },
+   "datasource": {
+    "type": "prometheus",
+    "uid": "prom"
+   },
+   "options": {
+    "reduceOptions": {
+     "calcs": [
+      "lastNotNull"
+     ]
+    },
+    "graphMode": "area"
+   },
+   "fieldConfig": {
+    "defaults": {},
+    "overrides": []
+   },
+   "targets": [
+    {
+     "expr": "quitter_consents_active",
+     "refId": "A",
+     "legendFormat": "__auto"
+    }
+   ],
+   "id": 9
+  },
+  {
+   "type": "stat",
+   "title": "Согласий отозвано",
+   "gridPos": {
+    "x": 12,
+    "y": 5,
+    "w": 4,
+    "h": 5
+   },
+   "datasource": {
+    "type": "prometheus",
+    "uid": "prom"
+   },
+   "options": {
+    "reduceOptions": {
+     "calcs": [
+      "lastNotNull"
+     ]
+    },
+    "graphMode": "area"
+   },
+   "fieldConfig": {
+    "defaults": {},
+    "overrides": []
+   },
+   "targets": [
+    {
+     "expr": "quitter_consents_revoked",
+     "refId": "A",
+     "legendFormat": "__auto"
+    }
+   ],
+   "id": 10
+  },
+  {
+   "type": "timeseries",
+   "title": "Лиды и согласия во времени",
+   "gridPos": {
+    "x": 16,
+    "y": 5,
+    "w": 8,
+    "h": 5
+   },
+   "datasource": {
+    "type": "prometheus",
+    "uid": "prom"
+   },
+   "fieldConfig": {
+    "defaults": {
+     "custom": {
+      "fillOpacity": 12,
+      "lineWidth": 2
+     }
+    },
+    "overrides": []
+   },
+   "targets": [
+    {
+     "expr": "quitter_leads_total",
+     "refId": "A",
+     "legendFormat": "лиды"
+    },
+    {
+     "expr": "quitter_leads_paid",
+     "refId": "B",
+     "legendFormat": "оплатили"
+    },
+    {
+     "expr": "quitter_consents_revoked",
+     "refId": "C",
+     "legendFormat": "отзывы ПДн"
+    }
+   ],
+   "id": 11
+  },
+  {
+   "type": "timeseries",
+   "title": "Оплаты по тарифам (всего)",
+   "gridPos": {
+    "x": 0,
+    "y": 10,
+    "w": 12,
+    "h": 8
+   },
+   "datasource": {
+    "type": "prometheus",
+    "uid": "prom"
+   },
+   "fieldConfig": {
+    "defaults": {
+     "custom": {
+      "fillOpacity": 12,
+      "lineWidth": 2
+     }
+    },
+    "overrides": []
+   },
+   "targets": [
+    {
+     "expr": "sum(quitter_payments_total) by (plan, provider)",
+     "refId": "A",
+     "legendFormat": "{{plan}} · {{provider}}"
+    }
+   ],
+   "id": 12
+  },
+  {
+   "type": "timeseries",
+   "title": "Выручка по тарифам (всего)",
+   "gridPos": {
+    "x": 12,
+    "y": 10,
+    "w": 12,
+    "h": 8
+   },
+   "datasource": {
+    "type": "prometheus",
+    "uid": "prom"
+   },
+   "fieldConfig": {
+    "defaults": {
+     "custom": {
+      "fillOpacity": 12,
+      "lineWidth": 2
+     }
+    },
+    "overrides": []
+   },
+   "targets": [
+    {
+     "expr": "sum(quitter_revenue_total) by (plan, currency)",
+     "refId": "A",
+     "legendFormat": "{{plan}} · {{currency}}"
+    }
+   ],
+   "id": 13
+  },
+  {
+   "type": "timeseries",
+   "title": "RPS по статусам",
+   "gridPos": {
+    "x": 0,
+    "y": 18,
+    "w": 8,
+    "h": 8
+   },
+   "datasource": {
+    "type": "prometheus",
+    "uid": "prom"
+   },
+   "fieldConfig": {
+    "defaults": {
+     "custom": {
+      "fillOpacity": 12,
+      "lineWidth": 2
+     },
+     "unit": "reqps"
+    },
+    "overrides": []
+   },
+   "targets": [
+    {
+     "expr": "sum(rate(quitter_http_requests_total[5m])) by (status)",
+     "refId": "A",
+     "legendFormat": "{{status}}"
+    }
+   ],
+   "id": 14
+  },
+  {
+   "type": "timeseries",
+   "title": "Латентность p50 / p95",
+   "gridPos": {
+    "x": 8,
+    "y": 18,
+    "w": 8,
+    "h": 8
+   },
+   "datasource": {
+    "type": "prometheus",
+    "uid": "prom"
+   },
+   "fieldConfig": {
+    "defaults": {
+     "custom": {
+      "fillOpacity": 12,
+      "lineWidth": 2
+     },
+     "unit": "s"
+    },
+    "overrides": []
+   },
+   "targets": [
+    {
+     "expr": "histogram_quantile(0.5, sum(rate(quitter_http_request_duration_seconds_bucket[5m])) by (le))",
+     "refId": "A",
+     "legendFormat": "p50"
+    },
+    {
+     "expr": "histogram_quantile(0.95, sum(rate(quitter_http_request_duration_seconds_bucket[5m])) by (le))",
+     "refId": "B",
+     "legendFormat": "p95"
+    }
+   ],
+   "id": 15
+  },
+  {
+   "type": "timeseries",
+   "title": "Ошибки 4xx/5xx, RPS",
+   "gridPos": {
+    "x": 16,
+    "y": 18,
+    "w": 8,
+    "h": 8
+   },
+   "datasource": {
+    "type": "prometheus",
+    "uid": "prom"
+   },
+   "fieldConfig": {
+    "defaults": {
+     "custom": {
+      "fillOpacity": 12,
+      "lineWidth": 2
+     },
+     "unit": "reqps"
+    },
+    "overrides": []
+   },
+   "targets": [
+    {
+     "expr": "sum(rate(quitter_http_requests_total{status=~\"4..\"}[5m]))",
+     "refId": "A",
+     "legendFormat": "4xx"
+    },
+    {
+     "expr": "sum(rate(quitter_http_requests_total{status=~\"5..\"}[5m]))",
+     "refId": "B",
+     "legendFormat": "5xx"
+    }
+   ],
+   "id": 16
+  },
+  {
+   "type": "timeseries",
+   "title": "CPU контейнеров quitter",
+   "gridPos": {
+    "x": 0,
+    "y": 26,
+    "w": 12,
+    "h": 8
+   },
+   "datasource": {
+    "type": "prometheus",
+    "uid": "prom"
+   },
+   "fieldConfig": {
+    "defaults": {
+     "custom": {
+      "fillOpacity": 12,
+      "lineWidth": 2
+     },
+     "unit": "percentunit"
+    },
+    "overrides": []
+   },
+   "targets": [
+    {
+     "expr": "sum(rate(container_cpu_usage_seconds_total{name=~\"quitter.*\"}[5m])) by (name)",
+     "refId": "A",
+     "legendFormat": "{{name}}"
+    }
+   ],
+   "id": 17
+  },
+  {
+   "type": "timeseries",
+   "title": "Память контейнеров quitter",
+   "gridPos": {
+    "x": 12,
+    "y": 26,
+    "w": 12,
+    "h": 8
+   },
+   "datasource": {
+    "type": "prometheus",
+    "uid": "prom"
+   },
+   "fieldConfig": {
+    "defaults": {
+     "custom": {
+      "fillOpacity": 12,
+      "lineWidth": 2
+     },
+     "unit": "bytes"
+    },
+    "overrides": []
+   },
+   "targets": [
+    {
+     "expr": "container_memory_working_set_bytes{name=~\"quitter.*\"}",
+     "refId": "A",
+     "legendFormat": "{{name}}"
+    }
+   ],
+   "id": 18
+  }
+ ]
+}

@@ -1,0 +1,39 @@
+# Референс-копия блока quitter для Caddyfile сервера.
+# ЗАМЕНИ quitter.example.com на боевой домен перед вставкой.
+# (боевой файл: /root/plane/deployments/cli/community/Caddyfile.custom на gas2;
+# после правок: docker exec community-proxy-1 caddy reload --config /etc/caddy/Caddyfile)
+quitter.example.com, www.quitter.example.com {
+	header {
+		Strict-Transport-Security "max-age=31536000; includeSubDomains"
+		X-Content-Type-Options "nosniff"
+		Referrer-Policy "strict-origin-when-cross-origin"
+		Content-Security-Policy "frame-ancestors 'self' https://web.telegram.org https://*.telegram.org tg://"
+		-Server
+	}
+	# метрики — только изнутри docker-сети
+	@metrics path /api/metrics
+	handle @metrics {
+		respond 404
+	}
+	# Grafana quitter за секретным путём (см. deploy/grafana/SECRET_PATH.txt)
+	handle /***REMOVED***/* {
+		header -Content-Security-Policy
+		header X-Robots-Tag "noindex, nofollow"
+		reverse_proxy grafana-quitter:3000 {
+			header_up X-Real-IP {remote_host}
+			header_up X-Forwarded-Proto {scheme}
+		}
+	}
+	handle /api/* {
+		reverse_proxy quitter-api:8080 {
+			header_up X-Real-IP {remote_host}
+			header_up X-Forwarded-Proto {scheme}
+		}
+	}
+	handle {
+		reverse_proxy quitter-app:80 {
+			header_up X-Real-IP {remote_host}
+			header_up X-Forwarded-Proto {scheme}
+		}
+	}
+}
