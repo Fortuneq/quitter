@@ -1,46 +1,52 @@
-# Ребут (quitter)
+# Reboot (quitter)
 
-Telegram Mini App: перезагрузка дофамина за 90 дней (аналог QUITTR).
-Стрик-каунтер, план 90 дней (урок + микрозадание на день), паник-кнопка,
-календарь срывов, значки, статистика восстановления. Онбординг-квиз → пейволл.
+A Telegram Mini App for a 90-day dopamine reset, in the spirit of QUITTR. It combines a streak counter, a day-by-day 90-day plan (a lesson and a micro-task for each day), a panic button, a relapse calendar, badges and recovery statistics. Onboarding is a short quiz followed by a paywall.
 
-Архитектура повторяет stretcher (BendApp):
+## Features
 
-- `miniapp/` — React + Vite (hash-роутер), тёмная тема. Прогресс в
-  localStorage + Telegram CloudStorage + бэкенд (`/api/state`).
-- `api/` — FastAPI + SQLite: триал 24 ч → free (стрик + паника) → premium
-  (план 90 дней, статистика). Оплата Telegram Stars и ЮKassa, согласия ПДн,
-  лиды с минисайта, метрики Prometheus (`quitter_*`, `/api/metrics`).
-- `deploy/` — Grafana (отдельный инстанс grafana-quitter за секретным путём,
-  см. `deploy/grafana/SECRET_PATH.txt`) и референс-блок Caddy.
-- `scripts/deploy.sh` — деплой на gas2 строго через git
-  (push → git pull на сервере → сборка образов → blue-green подмена).
+- Streak counter and relapse calendar
+- 90-day plan: a lesson and a micro-task for every day
+- Panic button for urges
+- Badges and recovery statistics
+- Access tiers: 24-hour trial → free (streak + panic button) → premium (full plan and stats)
+- Payments via Telegram Stars and YooKassa
+- Personal-data consent flow, lead capture from the mini-site
+- Prometheus metrics (`quitter_*`, `/api/metrics`) with a dedicated Grafana instance
 
-## Тарифы
+## Tech stack
 
-1 месяц — 799 ₽ (500 ⭐), 1 год — 2990 ₽ (1870 ⭐).
+| Part | Technology |
+|---|---|
+| Mini App | React, Vite (hash router), dark theme; progress stored in localStorage, Telegram CloudStorage and the backend |
+| API | FastAPI, SQLite |
+| Monitoring | Prometheus, Grafana |
+| Deploy | Docker, Caddy, blue-green deploy script |
 
-## Локальная разработка
+## Project structure
 
-```bash
-cd miniapp && npm install && npm run dev
+```
+miniapp/            — the Mini App
+api/                — FastAPI backend: state sync, subscriptions, payments, metrics
+deploy/             — Grafana provisioning and a Caddy reference block
+scripts/deploy.sh   — git-based blue-green deployment
 ```
 
-Вне Telegram приложение работает в локальном режиме (без оплаты и синка).
+## Getting started
 
-## Сервер (gas2)
+```bash
+cd miniapp
+npm install
+npm run dev
+```
 
-- Репозиторий: `/opt/quitter`, данные: `/var/lib/quitter`,
-  env: `/etc/quitter/api.env` (BOT_TOKEN, WEBHOOK_SECRET, BOT_USERNAME,
-  BOT_URL, APP_URL, DOCS_URL, ADMIN_CHAT_ID, YOOKASSA_*).
-- Контейнеры: `quitter-api`, `quitter-app`, `grafana-quitter`
-  (сеть `community_default`).
-- Prometheus: джоба `quitter-api` в конфиге kegel-прометеуса.
-- Caddy: блок домена в `/root/plane/deployments/cli/community/Caddyfile.custom`.
+Outside Telegram the app runs in local mode (no payments or sync).
 
-## Перед запуском продаж
+## Configuration
 
-- Создать бота в BotFather, положить токен в api.env, включить вебхук
-  `https://true-scale.ru/quit/api/tg-webhook` (с secret_token = WEBHOOK_SECRET).
-- Заполнить реквизиты в `miniapp/public/docs/*.html` (плейсхолдеры [ФИО]/[ИНН]/[e-mail]).
-- Ключи ЮKassa в api.env + вебхук payment.succeeded → `/api/yk-webhook`.
+The API reads its settings from an env file: `BOT_TOKEN`, `WEBHOOK_SECRET`, `BOT_USERNAME`, `BOT_URL`, `APP_URL`, `DOCS_URL`, `ADMIN_CHAT_ID`, `YOOKASSA_*`.
+
+## Deployment
+
+`scripts/deploy.sh` deploys strictly through git: push → `git pull` on the server → build images → blue-green container swap.
+
+The architecture mirrors [StretcherMiniapp](https://github.com/Fortuneq/StretcherMiniapp).
